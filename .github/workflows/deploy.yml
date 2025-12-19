@@ -42,7 +42,7 @@ jobs:
           php artisan route:cache
           php artisan view:cache
 
-      # 7. Deploy only new/changed files via SCP
+      # 7. Deploy only new/changed files via SFTP
       - name: Deploy changed files via SFTP
         uses: appleboy/scp-action@v0.1.4
         with:
