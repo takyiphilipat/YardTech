@@ -51,10 +51,10 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
+          protocol: sftp
+          port: 22
           local-dir: ./
-          server-dir: /htdocs/laravel/
+          server-dir: /htdocs/
           dangerous-clean-slate: false
           exclude: |
             **/.git*
