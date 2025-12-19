@@ -42,16 +42,22 @@ jobs:
           php artisan route:cache
           php artisan view:cache
 
-      # 7. Deploy only resources and routes incrementally via SFTP/SCP
-      - name: Deploy resources and routes via SFTP
+      # 7. Deploy only new/changed files via SCP
+      - name: Deploy changed files via SFTP
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
-          rm: false       # keep existing files on server
+          rm: false       # don't delete existing files
           source: |
+            app
+            bootstrap
+            config
+            database
             resources
             routes
+            vendor
+            artisan
           target: /htdocs/laravel/
