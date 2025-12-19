@@ -28,10 +28,10 @@ jobs:
           COMPOSER_NO_INTERACTION: 1
           COMPOSER_NO_AUDIT: 1
 
-      # 4. Setup Node.js
+      # 4. Setup Node.js - UPDATE TO VERSION 20
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
       # 5. Install Node dependencies and build Vite assets
       - run: |
@@ -44,17 +44,17 @@ jobs:
           php artisan route:cache
           php artisan view:cache
 
-      # 7. Deploy only new/changed files via SFTP
-      - name: Deploy changed files via SFTP
+      # 7. Deploy only new/changed files via FTP
+      - name: Deploy changed files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: sftp
-          port: 22
+          protocol: ftp
+          port: 21
           local-dir: ./
-          server-dir: /htdocs/
+          server-dir: /htdocs/laravel/
           dangerous-clean-slate: false
           exclude: |
             **/.git*
