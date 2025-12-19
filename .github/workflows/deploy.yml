@@ -42,21 +42,16 @@ jobs:
           php artisan route:cache
           php artisan view:cache
 
-      # 7. Deploy Laravel project incrementally via SFTP
-      - name: Deploy only changed files via SFTP
-        uses: atymic/sftp-deploy@v1.0.6
+      # 7. Deploy only resources and routes incrementally via SFTP/SCP
+      - name: Deploy resources and routes via SFTP
+        uses: appleboy/scp-action@v0.1.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 22
-          local-dir: ./
-          remote-dir: /htdocs/laravel/
-          delete: false       # keep existing files
-          exclude: |
-            public/**
-            .git/**
-            .github/**
-            node_modules/**
-            tests/**
-
+          rm: false       # keep existing files on server
+          source: |
+            resources
+            routes
+          target: /htdocs/laravel/
