@@ -13,7 +13,7 @@ jobs:
       # 1. Checkout code
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # Important for tracking changes
+          fetch-depth: 2
 
       # 2. Setup PHP 8.2
       - uses: shivammathur/setup-php@v2
@@ -61,7 +61,9 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/vendor/**
-            **/public/**
+            **/public/hot
+            **/public/storage
+            **/public/index.php
             **/.env
             **/storage/logs/**
             **/storage/framework/cache/**
