@@ -12,6 +12,8 @@ jobs:
     steps:
       # 1. Checkout code
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Important for tracking changes
 
       # 2. Setup PHP 8.2
       - uses: shivammathur/setup-php@v2
@@ -44,20 +46,33 @@ jobs:
 
       # 7. Deploy only new/changed files via SFTP
       - name: Deploy changed files via SFTP
-        uses: appleboy/scp-action@v0.1.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.FTP_SERVER }}
+          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          rm: false       # don't delete existing files
-          source: |
-            app
-            bootstrap
-            config
-            database
-            resources
-            routes
-            vendor
-            artisan
-          target: /htdocs/laravel/
+          protocol: ftps
+          port: 21
+          local-dir: ./
+          server-dir: /htdocs/laravel/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/vendor/**
+            **/public/**
+            **/.env
+            **/storage/logs/**
+            **/storage/framework/cache/**
+            **/storage/framework/sessions/**
+            **/storage/framework/views/**
+            **/tests/**
+            **/.github/**
+            **/package.json
+            **/package-lock.json
+            **/composer.json
+            **/composer.lock
+            **/webpack.mix.js
+            **/vite.config.js
+            **/README.md
