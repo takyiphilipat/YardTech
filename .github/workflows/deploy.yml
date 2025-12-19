@@ -36,7 +36,7 @@ jobs:
           npm install
           npm run build
 
-      # 6. Clear Laravel cache
+      # 6. Clear Laravel caches
       - run: |
           php artisan config:cache
           php artisan route:cache
